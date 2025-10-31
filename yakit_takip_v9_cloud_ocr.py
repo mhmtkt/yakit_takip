@@ -116,9 +116,10 @@ with tab3:
 
         df["Km Başına Maliyet (₺/km)"] = (df["Toplam_Tutar(₺)"] / df["Km_Sayacı"].diff().fillna(1)).replace([float("inf"), -float("inf")], 0)
 
-        col1, col2 = st.columns(2)
-        col1.metric("💧 Ortalama Tüketim (L/100km)", f"{df[\"100 km'de Tüketim (L)\"].mean():.2f}")
-        col2.metric("💸 Ortalama Maliyet (₺/km)", f"{df['Km Başına Maliyet (₺/km)'].mean():.2f}")
+       col1, col2 = st.columns(2)
+       col1.metric("💧 Ortalama Tüketim (L/100km)", f"{df['Tuketim_L_100km'].mean():.2f}")
+       col2.metric("💸 Ortalama Maliyet (₺/km)", f"{df['Km Başına Maliyet (₺/km)'].mean():.2f}")
+
 
 
         st.line_chart(df.set_index("Tarih")[["100 km'de Tüketim (L)", "Km Başına Maliyet (₺/km)"]])
