@@ -7,7 +7,7 @@ import io
 from datetime import datetime
 
 # === OCR CONFIG ===
-OCR_API_KEY = "helloworld"  # 👈 BURAYA KENDİ KEY'İNİ YAZ (https://ocr.space/ocrapi)
+OCR_API_KEY = "K84058354088957"  # 👈 BURAYA KENDİ KEY'İNİ YAZ (https://ocr.space/ocrapi)
 
 # === PAGE CONFIG ===
 st.set_page_config(page_title="Yakıt Takip v9 - Cloud OCR", page_icon="⛽", layout="wide")
