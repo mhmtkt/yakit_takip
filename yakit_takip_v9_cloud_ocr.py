@@ -112,7 +112,8 @@ with tab3:
         df["Tarih"] = pd.to_datetime(df["Tarih"], errors="coerce")
         df = df.sort_values("Tarih")
 
-        df["100 km'de Tüketim (L)"] = (df["Alınan Litre"] / (df["Km_Sayacı"].diff().fillna(0) / 100)).replace([float("inf"), -float("inf")], 0)
+        df["Tuketim_L_100km"] = (df["Alınan Litre"] / (df["Km_Sayacı"].diff().fillna(0) / 100)).replace([float("inf"), -float("inf")], 0)
+
         df["Km Başına Maliyet (₺/km)"] = (df["Toplam_Tutar(₺)"] / df["Km_Sayacı"].diff().fillna(1)).replace([float("inf"), -float("inf")], 0)
 
         col1, col2 = st.columns(2)
