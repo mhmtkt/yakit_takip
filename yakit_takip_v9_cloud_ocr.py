@@ -100,6 +100,7 @@ with tab2:
             st.error("OCR servisine bağlanılamadı. API Key geçerli mi kontrol et!")
 
 # ------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 # 📊 3️⃣ ANALİZ
 with tab3:
     st.subheader("📊 Yakıt Analizi")
@@ -112,14 +113,19 @@ with tab3:
         df["Tarih"] = pd.to_datetime(df["Tarih"], errors="coerce")
         df = df.sort_values("Tarih")
 
-        df["Tuketim_L_100km"] = (df["Alınan Litre"] / (df["Km_Sayacı"].diff().fillna(0) / 100)).replace([float("inf"), -float("inf")], 0)
+        # 100 km'de tüketim ve km başına maliyet hesaplama
+        df["Tuketim_L_100km"] = (
+            df["Alınan Litre"] / (df["Km_Sayacı"].diff().fillna(0) / 100)
+        ).replace([float("inf"), -float("inf")], 0)
 
-        df["Km Başına Maliyet (₺/km)"] = (df["Toplam_Tutar(₺)"] / df["Km_Sayacı"].diff().fillna(1)).replace([float("inf"), -float("inf")], 0)
+        df["Km_Basi_Maliyet_TL_km"] = (
+            df["Toplam_Tutar(₺)"] / df["Km_Sayacı"].diff().fillna(1)
+        ).replace([float("inf"), -float("inf")], 0)
 
-       col1, col2 = st.columns(2)
-       col1.metric("💧 Ortalama Tüketim (L/100km)", f"{df['Tuketim_L_100km'].mean():.2f}")
-       col2.metric("💸 Ortalama Maliyet (₺/km)", f"{df['Km Başına Maliyet (₺/km)'].mean():.2f}")
+        col1, col2 = st.columns(2)
+        col1.metric("💧 Ortalama Tüketim (L/100km)", f"{df['Tuketim_L_100km'].mean():.2f}")
+        col2.metric("💸 Ortalama Maliyet (₺/km)", f"{df['Km_Basi_Maliyet_TL_km'].mean():.2f}")
 
-
-
-        st.line_chart(df.set_index("Tarih")[["100 km'de Tüketim (L)", "Km Başına Maliyet (₺/km)"]])
+        st.line_chart(
+            df.set_index("Tarih")[["Tuketim_L_100km", "Km_Basi_Maliyet_TL_km"]]
+        )
